@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta name="robots" content="noindex">
+
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <!-- include bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+    <link href="../../images/LaunchSquad_w33px.png" style="height: 100%;" rel="shortcut icon">
+    <title>Intelex Energy Monitoring</title>
+
+    <link href="./css/core.css" rel="stylesheet">
+    <script src="./js/main.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <label>Intelex Energy Monitoring - Configuration</label>
+      </div>
+      <div id="container">
+        <div id="content">
+
+          <!-- Check to see if there's a newer version of this app available -->
+          <div class="section">
+            <div class="introtext">Welcome to the Intelex Energy Monitoring Configuration App.</div>
+            <div class="introtext">This is used to pull data from your energy monitoring devices (e.g. TED5000) and push them into your instance of the Intelex system.</div>
+            <div class="introtext">Make sure you have the Intelex Energy Monitoring app installed! <a href="https://marketplace.intelex.com/application/energy-monitoring">Download Intelex App</a></div>
+          </div>
+
+
+          <div class="section"><!-- Authenticate -->
+            <div>Please enter your username and password for the Intelex system</div>
+
+            <!-- CREDENTIALS -->
+            <input class="field" id="username" type="text" placeholder="Username">
+            <input class="field" id="password" type="password" placeholder="Password">
+            <button class="btn btn-success" onclick="authenticate()">Authenticate</button>
+
+            <!--
+              - make sure they have API access
+              - make sure they actually have the App installed from Marketplace
+            -->
+            <div id="autherrorlist" style="margin-top:15px;"></div>
+          </div>
+
+
+          <div class="section"><!-- Choose which Territory this is -->
+            <!--
+              - make sure they have Territories configured in app and a territory configured for THIS node process / TED Device
+            -->
+
+            <b>Current Territory</b>
+            <div>
+              <div id="territorylist" style="display:inline-block;"></div>
+              <button id="changeterritory" onclick="changeterritory()" class="btn btn-warning" style="display:none;">Update...</button>
+            </div>
+            <div id="territoryerrorlist"></div>
+
+
+            <div id="configterritory" style="display:none; padding:10px; margin:10px; border:1px solid gray;">
+              <select id="territorydropdown"></select>
+
+              <button id="selectterritory" class="btn btn-primary" onclick="selectterritory()">Select</button>
+              <button id="cancelterritory" class="btn" onclick="cancelterritory()">Cancel</button>
+            </div>
+
+
+            <button class="btn refresh" id="refreshterritory" onclick="refreshterritory()">Refresh</button>
+          </div>
+
+
+          <div class="section"><!-- Find TED device(s) -->
+            <b>TED Devices</b>
+            <div>
+              <div id="tedlist" style="display:inline-block;"></div>
+              <button id="changeted" onclick="changeted()" class="btn btn-warning" style="display:none;">Update...</button>
+            </div>
+            <div id="tederrorlist"></div>
+            <!--
+              - show the list of TED devices configured
+              - show which sensor they're mapped to
+              - give a status (active, not found)
+            -->
+
+            <div id="configted" style="display:none; padding:10px; margin:10px; border:1px solid gray;">
+              <input id="tedhostname" class="tedfield" placeholder="TED hostname (e.g. 'TED5000')" />
+              <input id="tedsensorname" class="tedfield" placeholder="TED sensor name (e.g. 'MTU1')" />
+
+              <div style="display:inline-block; margin:5px;">
+                <button id="saveted" class="btn btn-primary" onclick="saveted()">Save</button>
+                <button id="cancelted" class="btn" onclick="cancelted()">Cancel</button>
+              </div>
+            </div>
+
+
+            <button class="btn refresh" id="refreshted" onclick="refreshted()">Refresh</button>
+          </div>
+
+
+          <div class="section"><!-- Pull Sensors/Territories from Intelex -->
+            <b>Sensors & Territories in Intelex system</b>
+            <div>
+              Make sure that Sensor from the attached TED Device is listed below in the proper Territory.
+            </div>
+            <div id="sensorlist"></div>
+            <!--
+              - make sure they have sensors/territories created in ILX
+                - if not, allow them to create them here?
+            -->
+            <div id="sensorerrorlist"></div>
+
+            <button class="btn refresh" id="refreshsensors" onclick="refreshsensors()">Refresh</button>
+          </div>
+
+
+          <div class="section" style="border-bottom:0; padding-bottom:0;"><!-- Display Start/Stop buttons and current Status -->
+            <b>Current Status</b>
+            <div style="margin-bottom:10px;">If all errors above have been resolved, click Start to begin sending TED data into Intelex!</div>
+            <button id="start" onclick="start()" class="btn btn-success" style="display:inline-block;">START</button>
+            <button id="stop" onclick="stop()" class="btn btn-danger" style="display:none;">STOP</button>
+            <label id="servicemessage"></label>
+          </div>
+        </div>
+      </div>
+
+      <div id="footer">Intelex 2015</div>
+    </div>
+  </body>
+</html>

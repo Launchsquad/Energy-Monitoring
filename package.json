@@ -1,0 +1,32 @@
+{
+  "name": "EnergyMonitoring",
+  "version": "0.1.0",
+  "description": "Energy Monitoring application connecting into Intelex",
+  "homepage": "http://www.intelex.com",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Launchsquad/Energy-Monitoring.git"
+  },
+  "files": [],
+  "dependencies": {
+    "body-parser": "1.13.x",
+    "bootstrap": "3.3.x",
+    "compression": "1.5.x",
+    "express": "4.12.x",
+    "express-session": "1.11.x",
+    "jquery": "2.1.x",
+    "jquery-ui": "1.10.x",
+    "method-override": "2.3.x",
+    "node-schedule": "0.2.x",
+    "underscore": "1.8.x",
+    "xml2js": "0.4.x"
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": "4.1.1",
+    "npm": "2.14.4"
+  },
+  "scripts": {}
+}
